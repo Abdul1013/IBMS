@@ -1,0 +1,9 @@
+export const JWT_ACCESS_EXPIRY = '15m';
+export const JWT_REFRESH_EXPIRY = '7d';
+export const JWT_REFRESH_EXPIRY_SECONDS = 60 * 60 * 24 * 7; // 7 days
+export const EMAIL_VERIFY_EXPIRY_SECONDS = 60 * 60 * 24; // 24 hours
+export const PASSWORD_RESET_EXPIRY_SECONDS = 60 * 60; // 1 hour
+export const BCRYPT_ROUNDS = 12;
+export const REDIS_REFRESH_PREFIX = 'refresh:';
+export const REDIS_EMAIL_VERIFY_PREFIX = 'email_verify:';
+export const REDIS_RESET_PREFIX = 'pw_reset:';
