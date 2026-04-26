@@ -13,6 +13,7 @@ import { hashPassword } from '../auth/auth.service';
 let studentToken = '';
 let staffToken = '';
 let announcementId = '';
+let commentId = '';
 
 const TS = Date.now();
 
