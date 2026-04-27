@@ -1,17 +1,15 @@
 import { io, Socket } from 'socket.io-client';
 import { useAuthStore } from '../stores/authStore';
 
-const API_URL = (import.meta.env['VITE_API_URL'] as string) ?? '';
+const API_URL = import.meta.env['VITE_API_URL'] as string | undefined;
 
 let socket: Socket | null = null;
 
 export const getSocket = (): Socket => {
   if (!socket) {
     const token = useAuthStore.getState().accessToken ?? '';
-    socket = io(API_URL, {
-      withCredentials: true,
-      auth: { token },
-    });
+    const opts = { withCredentials: true, auth: { token } };
+    socket = API_URL ? io(API_URL, opts) : io(opts);
   }
   return socket;
 };
