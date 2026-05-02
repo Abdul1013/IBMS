@@ -137,3 +137,23 @@ See [`.env.example`](.env.example) for the full list with descriptions.
 GitHub Actions runs on every push:
 - **lint-and-build** — ESLint (zero warnings) + TypeScript build for both workspaces
 - **test** — Vitest integration suite against real MongoDB + Redis containers
+
+Build Command:
+
+
+npm install && npm run build:api
+Start Command:
+
+
+npm start --workspace=apps/api
+
+
+upstash - redis 
+mongodb - database 
+render - backend 
+vercel - frontend 
+
+SUS survey — create a quick Google Form with the 10 standard SUS questions, send it to 15–20 coursemates and a few staff. You'll have real scores within a day.
+
+Engagement data — post 3–5 test announcements on the live system, ask your coursemates to interact. Screenshot the analytics after 24 hours.
+
