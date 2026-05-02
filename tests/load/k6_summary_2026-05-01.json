@@ -1,0 +1,143 @@
+{
+    "root_group": {
+        "checks": {
+            "feed status 200": {
+                "passes": 477,
+                "fails": 0,
+                "name": "feed status 200",
+                "path": "::feed status 200",
+                "id": "e3e235e93149a0644f3b465db015d85a"
+            },
+            "detail status 200": {
+                "id": "4b99591b6f850cc5704a9b8fd757eb6a",
+                "passes": 477,
+                "fails": 0,
+                "name": "detail status 200",
+                "path": "::detail status 200"
+            }
+        },
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {}
+    },
+    "metrics": {
+        "iteration_duration": {
+            "p(95)": 3104.0383247999994,
+            "avg": 2617.3782695618447,
+            "min": 2357.779833,
+            "med": 2503.83075,
+            "max": 5440.0125,
+            "p(90)": 2941.1612664000004
+        },
+        "http_req_blocked": {
+            "min": 0.001,
+            "med": 0.007,
+            "max": 43.817,
+            "p(90)": 0.032,
+            "p(95)": 0.09389999999999987,
+            "avg": 0.13480523560209448
+        },
+        "http_req_connecting": {
+            "max": 7.919,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.012981151832460734,
+            "min": 0,
+            "med": 0
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 955,
+            "thresholds": {
+                "rate<0.01": false
+            },
+            "value": 0
+        },
+        "vus_max": {
+            "min": 20,
+            "max": 20,
+            "value": 20
+        },
+        "http_req_receiving": {
+            "p(90)": 0.2494000000000001,
+            "p(95)": 0.5871999999999998,
+            "avg": 0.6056335078534033,
+            "min": 0.013,
+            "med": 0.074,
+            "max": 194.295
+        },
+        "http_req_tls_handshaking": {
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "max": 0,
+            "p(90)": 0,
+            "p(95)": 0
+        },
+        "http_req_waiting": {
+            "avg": 308.76442513088983,
+            "min": 173.946,
+            "med": 235.946,
+            "max": 3323.874,
+            "p(90)": 519.3958,
+            "p(95)": 634.3062999999995
+        },
+        "http_req_duration": {
+            "min": 174.01,
+            "med": 236.277,
+            "max": 3524.732,
+            "p(90)": 519.509,
+            "p(95)": 634.4069999999995,
+            "avg": 309.51424188481695,
+            "thresholds": {
+                "p(99)<2000": false
+            }
+        },
+        "http_req_duration{expected_response:true}": {
+            "med": 236.277,
+            "max": 3524.732,
+            "p(90)": 519.509,
+            "p(95)": 634.4069999999995,
+            "avg": 309.51424188481695,
+            "min": 174.01
+        },
+        "http_reqs": {
+            "count": 955,
+            "rate": 9.84003807424994
+        },
+        "data_sent": {
+            "count": 384181,
+            "rate": 3958.487609846509
+        },
+        "http_req_sending": {
+            "avg": 0.1441832460732987,
+            "min": 0.004,
+            "med": 0.02,
+            "max": 18.378,
+            "p(90)": 0.08120000000000005,
+            "p(95)": 0.17539999999999964
+        },
+        "vus": {
+            "value": 1,
+            "min": 0,
+            "max": 20
+        },
+        "iterations": {
+            "count": 477,
+            "rate": 4.914867184730074
+        },
+        "checks": {
+            "passes": 954,
+            "fails": 0,
+            "value": 1
+        },
+        "data_received": {
+            "count": 2433558,
+            "rate": 25074.66322083302
+        }
+    },
+    "setup_data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWY1MWU0ODQ1MDM1MDY4ZDcwNDdjODIiLCJyb2xlIjoiU1RBRkYiLCJlbWFpbCI6ImxvYWR0ZXN0QGxjdS5lZHUubmciLCJpYXQiOjE3Nzc2NzI3NDksImV4cCI6MTc3NzY3MzY0OX0.omaTdAw4d2duwxGo-Dsk5uY7KmtWJ0DXN2C9mv6XFr4"
+    }
+}

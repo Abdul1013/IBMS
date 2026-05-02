@@ -1,11 +1,14 @@
 import rateLimit from 'express-rate-limit';
 
+const skipDuringLoadTest = (): boolean => process.env['DISABLE_RATE_LIMITS'] === 'true';
+
 // Global API limiter — broad protection for all /api/* routes
 export const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 300,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: skipDuringLoadTest,
   message: {
     success: false,
     error: { code: 'RATE_LIMITED', message: 'Too many requests. Slow down.' },
@@ -19,6 +22,7 @@ export const authLimiter = rateLimit({
   skipSuccessfulRequests: true,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: skipDuringLoadTest,
   message: {
     success: false,
     error: { code: 'RATE_LIMITED', message: 'Too many attempts. Try again in 15 minutes.' },
@@ -31,6 +35,7 @@ export const publicLimiter = rateLimit({
   max: 150,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: skipDuringLoadTest,
   message: { success: false, error: { code: 'RATE_LIMITED', message: 'Too many requests.' } },
 });
 
@@ -40,6 +45,7 @@ export const postingLimiter = rateLimit({
   max: 10,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: skipDuringLoadTest,
   message: {
     success: false,
     error: { code: 'RATE_LIMITED', message: 'Posting too fast. Slow down.' },

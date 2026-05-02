@@ -33,9 +33,11 @@ describe('Announcements API — integration', () => {
     await mongoose.connect(process.env['MONGO_URI'] ?? 'mongodb://localhost:27017/ibms_test');
 
     const hashed = await hashPassword(ADMIN.password);
-    const admin = await User.create({ ...ADMIN, password: hashed, isVerified: true });
+    const { password: _adminPwd, ...adminFields } = ADMIN;
+    const admin = await User.create({ ...adminFields, passwordHash: hashed, isVerified: true });
     const staffHashed = await hashPassword(STAFF.password);
-    await User.create({ ...STAFF, password: staffHashed, isVerified: true });
+    const { password: _staffPwd, ...staffFields } = STAFF;
+    await User.create({ ...staffFields, passwordHash: staffHashed, isVerified: true });
 
     // Login admin
     const adminLogin = await request(app)
@@ -174,7 +176,7 @@ describe('Announcements API — integration', () => {
       await User.create({
         name: 'Other Staff',
         email: `other_${Date.now()}@example.com`,
-        password: anotherStaffHash,
+        passwordHash: anotherStaffHash,
         role: 'STAFF',
         isVerified: true,
       });
