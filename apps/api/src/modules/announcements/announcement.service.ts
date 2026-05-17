@@ -57,8 +57,15 @@ export const getAnnouncement = async (id: string, viewerSessionKey?: string) => 
     const viewKey = `view:${id}:${viewerSessionKey}`;
     const alreadyViewed = await redis.get(viewKey);
     if (!alreadyViewed) {
-      await Announcement.findByIdAndUpdate(id, { $inc: { views: 1 } });
-      await redis.setex(viewKey, 60 * 60 * 24, '1');
+      await Promise.all([
+        Announcement.findByIdAndUpdate(id, { $inc: { views: 1 } }),
+        redis.setex(viewKey, 60 * 60 * 24, '1'),
+      ]);
+      announcement.views += 1;
+      emitToRooms(['global', `announcement:${id}`], 'announcement:view_increment', {
+        announcementId: id,
+        views: announcement.views,
+      });
     }
   }
 

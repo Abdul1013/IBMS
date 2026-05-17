@@ -25,6 +25,7 @@ export default function Feed() {
   const [selectedPriority, setSelectedPriority] = useState('');
   const [page, setPage] = useState(1);
   const [banner, setBanner] = useState<NewAnnouncementPayload | null>(null);
+  const [viewOverrides, setViewOverrides] = useState<Record<string, number>>({});
   const bannerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -56,8 +57,13 @@ export default function Feed() {
   useEffect(() => {
     const socket = getSocket();
     socket.on('announcement:new', showBanner);
+    const onViewIncrement = (payload: { announcementId: string; views: number }) => {
+      setViewOverrides(prev => ({ ...prev, [payload.announcementId]: payload.views }));
+    };
+    socket.on('announcement:view_increment', onViewIncrement);
     return () => {
       socket.off('announcement:new', showBanner);
+      socket.off('announcement:view_increment', onViewIncrement);
     };
   }, [showBanner]);
 
@@ -240,7 +246,13 @@ export default function Feed() {
                         cardRefs.current[a._id] = el;
                       }}
                     >
-                      <AnnouncementCard announcement={a} />
+                      <AnnouncementCard
+                        announcement={
+                          viewOverrides[a._id] !== undefined
+                            ? { ...a, views: viewOverrides[a._id] }
+                            : a
+                        }
+                      />
                     </div>
                   ))}
                 </div>

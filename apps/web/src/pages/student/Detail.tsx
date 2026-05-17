@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Eye } from 'lucide-react';
 import { useAnnouncement } from '../../hooks/useAnnouncements';
 import { ReactionBar } from '../../components/bulletin/ReactionBar';
 import { CommentThread } from '../../components/bulletin/CommentThread';
 import { AckButton } from '../../components/bulletin/AckButton';
 import AppLayout from '../../components/layout/AppLayout';
+import { getSocket } from '../../lib/socket';
 
 const PRIORITY_STYLES: Record<string, string> = {
   URGENT: 'bg-red-100 text-red-700',
@@ -15,6 +18,27 @@ export default function Detail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: announcement, isLoading, isError } = useAnnouncement(id ?? '');
+  const [viewCount, setViewCount] = useState<number | null>(null);
+
+  // Join the announcement room and listen for live view increments
+  useEffect(() => {
+    if (!id) return;
+    const socket = getSocket();
+    socket.emit('join:room', { room: `announcement:${id}` });
+    const handler = (payload: { announcementId: string; views: number }) => {
+      if (payload.announcementId === id) setViewCount(payload.views);
+    };
+    socket.on('announcement:view_increment', handler);
+    return () => {
+      socket.off('announcement:view_increment', handler);
+      socket.emit('leave:room', { room: `announcement:${id}` });
+    };
+  }, [id]);
+
+  // Initialise local count once the query resolves
+  useEffect(() => {
+    if (announcement && viewCount === null) setViewCount(announcement.views);
+  }, [announcement, viewCount]);
 
   if (isLoading) {
     return (
@@ -44,7 +68,8 @@ export default function Detail() {
     );
   }
 
-  const { title, body, priority, category, authorId, publishedAt, views } = announcement;
+  const { title, body, priority, category, authorId, publishedAt } = announcement;
+  const displayViews = viewCount ?? announcement.views;
 
   return (
     <AppLayout>
@@ -85,7 +110,10 @@ export default function Detail() {
               })}
             </span>
           )}
-          <span>{views} views</span>
+          <span className="flex items-center gap-1">
+            <Eye className="w-3.5 h-3.5" />
+            {displayViews} {displayViews === 1 ? 'view' : 'views'}
+          </span>
         </div>
 
         <div

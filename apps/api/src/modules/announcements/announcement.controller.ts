@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import type { Response } from 'express';
 import type { AuthRequest } from '../../middleware/auth';
 import { asyncHandler } from '../../utils/asyncHandler';
@@ -26,7 +27,15 @@ export const listHandler = asyncHandler(async (req: AuthRequest, res: Response) 
 });
 
 export const getOneHandler = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const sessionKey = req.cookies['session_id'] as string | undefined;
+  let sessionKey = req.cookies['session_id'] as string | undefined;
+  if (!sessionKey) {
+    sessionKey = randomUUID();
+    res.cookie('session_id', sessionKey, {
+      httpOnly: true,
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+  }
   const data = await getAnnouncement(req.params['id'] as string, sessionKey);
   res.json({ success: true, data });
 });
